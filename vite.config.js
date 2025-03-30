@@ -29,6 +29,8 @@ export default defineConfig({
                 },
             },
         }),
-        vueDevTools(),
+        vueDevTools({
+            appendTo: 'resources/js/app.js'
+        }),
     ],
 });
