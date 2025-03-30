@@ -11,6 +11,15 @@ import Footer from "./components/Footer.vue";
     <Footer />
 </template>
 
-<style scoped>
+<style>
+html {
+    position: relative;
+    min-height: 100%;
+}
 
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
 </style>
