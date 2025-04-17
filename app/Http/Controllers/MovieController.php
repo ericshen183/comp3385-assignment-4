@@ -24,7 +24,7 @@ class MovieController extends Controller
             'poster' => 'required|image'
         ]);
 
-        $path = $request->file('poster')->storeAs('posters', $request->file('poster')->getClientOriginalName(),"public");
+        $path = $request->file('poster')->storeAs('posters', $request->file('poster')->getClientOriginalName(), "public");
         $movie = new Movie([
             'title' => $request->title,
             'description' => $request->description,

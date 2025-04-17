@@ -8,12 +8,49 @@ use Illuminate\Support\Facades\Validator as ValidatorFacade;
 
 class ValidationException extends Exception
 {
+    /**
+     * The validator instance.
+     *
+     * @var \Illuminate\Contracts\Validation\Validator
+     */
     public $validator;
+
+    /**
+     * The recommended response to send to the client.
+     *
+     * @var \Symfony\Component\HttpFoundation\Response|null
+     */
     public $response;
+
+    /**
+     * The status code to use for the response.
+     *
+     * @var int
+     */
     public $status = 422;
+
+    /**
+     * The name of the error bag.
+     *
+     * @var string
+     */
     public $errorBag;
+
+    /**
+     * The path the client should be redirected to.
+     *
+     * @var string
+     */
     public $redirectTo;
 
+    /**
+     * Create a new exception instance.
+     *
+     * @param  \Illuminate\Contracts\Validation\Validator  $validator
+     * @param  \Symfony\Component\HttpFoundation\Response|null  $response
+     * @param  string  $errorBag
+     * @return void
+     */
     public function __construct($validator, $response = null, $errorBag = 'default')
     {
         parent::__construct(static::summarize($validator));
@@ -23,6 +60,12 @@ class ValidationException extends Exception
         $this->validator = $validator;
     }
 
+    /**
+     * Create a new validation exception from a plain array of messages.
+     *
+     * @param  array  $messages
+     * @return static
+     */
     public static function withMessages(array $messages)
     {
         return new static(tap(ValidatorFacade::make([], []), function ($validator) use ($messages) {
@@ -34,6 +77,12 @@ class ValidationException extends Exception
         }));
     }
 
+    /**
+     * Create an error message summary from the validation errors.
+     *
+     * @param  \Illuminate\Contracts\Validation\Validator  $validator
+     * @return string
+     */
     protected static function summarize($validator)
     {
         $messages = $validator->errors()->all();
@@ -53,11 +102,22 @@ class ValidationException extends Exception
         return $message;
     }
 
+    /**
+     * Get all of the validation error messages.
+     *
+     * @return array
+     */
     public function errors()
     {
         return $this->validator->errors()->messages();
     }
 
+    /**
+     * Set the HTTP status code to be used for the response.
+     *
+     * @param  int  $status
+     * @return $this
+     */
     public function status($status)
     {
         $this->status = $status;
@@ -65,6 +125,12 @@ class ValidationException extends Exception
         return $this;
     }
 
+    /**
+     * Set the error bag on the exception.
+     *
+     * @param  string  $errorBag
+     * @return $this
+     */
     public function errorBag($errorBag)
     {
         $this->errorBag = $errorBag;
@@ -72,6 +138,12 @@ class ValidationException extends Exception
         return $this;
     }
 
+    /**
+     * Set the URL to redirect to on a validation error.
+     *
+     * @param  string  $url
+     * @return $this
+     */
     public function redirectTo($url)
     {
         $this->redirectTo = $url;
@@ -79,6 +151,11 @@ class ValidationException extends Exception
         return $this;
     }
 
+    /**
+     * Get the underlying response instance.
+     *
+     * @return \Symfony\Component\HttpFoundation\Response|null
+     */
     public function getResponse()
     {
         return $this->response;

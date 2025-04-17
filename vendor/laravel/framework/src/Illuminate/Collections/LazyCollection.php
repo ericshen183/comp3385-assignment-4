@@ -39,6 +39,7 @@ class LazyCollection implements CanBeEscapedWhenCastToString, Enumerable
      * Create a new lazy collection instance.
      *
      * @param  \Illuminate\Contracts\Support\Arrayable<TKey, TValue>|iterable<TKey, TValue>|(Closure(): \Generator<TKey, TValue, mixed, void>)|self<TKey, TValue>|array<TKey, TValue>|null  $source
+     * @return void
      */
     public function __construct($source = null)
     {
@@ -1375,28 +1376,22 @@ class LazyCollection implements CanBeEscapedWhenCastToString, Enumerable
      * Chunk the collection into chunks of the given size.
      *
      * @param  int  $size
-     * @param  bool  $preserveKeys
-     * @return ($preserveKeys is true ? static<int, static> : static<int, static<int, TValue>>)
+     * @return static<int, static>
      */
-    public function chunk($size, $preserveKeys = true)
+    public function chunk($size)
     {
         if ($size <= 0) {
             return static::empty();
         }
 
-        $add = match ($preserveKeys) {
-            true => fn (array &$chunk, Traversable $iterator) => $chunk[$iterator->key()] = $iterator->current(),
-            false => fn (array &$chunk, Traversable $iterator) => $chunk[] = $iterator->current(),
-        };
-
-        return new static(function () use ($size, $add) {
+        return new static(function () use ($size) {
             $iterator = $this->getIterator();
 
             while ($iterator->valid()) {
                 $chunk = [];
 
                 while (true) {
-                    $add($chunk, $iterator);
+                    $chunk[$iterator->key()] = $iterator->current();
 
                     if (count($chunk) < $size) {
                         $iterator->next();

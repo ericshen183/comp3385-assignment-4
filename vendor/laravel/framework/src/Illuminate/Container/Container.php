@@ -1097,8 +1097,8 @@ class Container implements ArrayAccess, ContainerContract
             // primitive type which we can not resolve since it is not a class and
             // we will just bomb out with an error since we have no-where to go.
             $result ??= is_null(Util::getParameterClassName($dependency))
-                ? $this->resolvePrimitive($dependency)
-                : $this->resolveClass($dependency);
+                            ? $this->resolvePrimitive($dependency)
+                            : $this->resolveClass($dependency);
 
             $this->fireAfterResolvingAttributeCallbacks($dependency->getAttributes(), $result);
 
@@ -1187,19 +1187,24 @@ class Container implements ArrayAccess, ContainerContract
     {
         $className = Util::getParameterClassName($parameter);
 
-        // First we will check if a default value has been defined for the parameter.
-        // If it has, and no explicit binding exists, we should return it to avoid
-        // overriding any of the developer specified defaults for the parameters.
-        if ($parameter->isDefaultValueAvailable() &&
-            ! $this->bound($className) &&
-            $this->findInContextualBindings($className) === null) {
+        // First, we check if the dependency has been explicitly bound in the container
+        // and if so, we will resolve it directly from there to respect any explicit
+        // bindings the developer has defined rather than using any default value.
+        if ($this->bound($className)) {
+            return $this->make($className);
+        }
+
+        // If no binding exists, we will check if a default value has been defined for
+        // the parameter. If it has, we should return it to avoid overriding any of
+        // the developer specified default values for the constructor parameters.
+        if ($parameter->isDefaultValueAvailable()) {
             return $parameter->getDefaultValue();
         }
 
         try {
             return $parameter->isVariadic()
-                ? $this->resolveVariadicClass($parameter)
-                : $this->make($className);
+                        ? $this->resolveVariadicClass($parameter)
+                        : $this->make($className);
         }
 
         // If we can not resolve the class instance, we will check to see if the value
@@ -1515,8 +1520,8 @@ class Container implements ArrayAccess, ContainerContract
     public function getAlias($abstract)
     {
         return isset($this->aliases[$abstract])
-            ? $this->getAlias($this->aliases[$abstract])
-            : $abstract;
+                    ? $this->getAlias($this->aliases[$abstract])
+                    : $abstract;
     }
 
     /**

@@ -37,6 +37,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenCastToString, Enumerabl
      * Create a new collection.
      *
      * @param  \Illuminate\Contracts\Support\Arrayable<TKey, TValue>|iterable<TKey, TValue>|null  $items
+     * @return void
      */
     public function __construct($items = [])
     {
@@ -1440,10 +1441,9 @@ class Collection implements ArrayAccess, CanBeEscapedWhenCastToString, Enumerabl
      * Chunk the collection into chunks of the given size.
      *
      * @param  int  $size
-     * @param  bool  $preserveKeys
-     * @return ($preserveKeys is true ? static<int, static> : static<int, static<int, TValue>>)
+     * @return static<int, static>
      */
-    public function chunk($size, $preserveKeys = true)
+    public function chunk($size)
     {
         if ($size <= 0) {
             return new static;
@@ -1451,7 +1451,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenCastToString, Enumerabl
 
         $chunks = [];
 
-        foreach (array_chunk($this->items, $size, $preserveKeys) as $chunk) {
+        foreach (array_chunk($this->items, $size, true) as $chunk) {
             $chunks[] = new static($chunk);
         }
 

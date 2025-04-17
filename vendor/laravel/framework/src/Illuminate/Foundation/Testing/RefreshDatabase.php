@@ -156,8 +156,7 @@ trait RefreshDatabase
     protected function connectionsToTransact()
     {
         return property_exists($this, 'connectionsToTransact')
-            ? $this->connectionsToTransact
-            : [config('database.default')];
+                            ? $this->connectionsToTransact : [config('database.default')];
     }
 
     /**
