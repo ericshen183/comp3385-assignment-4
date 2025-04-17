@@ -5,10 +5,12 @@ let movies = ref([]);
 
 const fetchMovies = async () => {
     try {
+        const token = localStorage.getItem('access_token'); // Retrieve the token from localStorage
         const response = await fetch("/api/v1/movies", {
             method: "GET",
             headers: {
-                "Accept": "application/json"
+                "Accept": "application/json",
+                "Authorization": `Bearer ${token}` // Include JWT token
             }
         });
 

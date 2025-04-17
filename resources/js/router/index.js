@@ -20,6 +20,10 @@ const router = createRouter({
         {
             path: '/movies', // New route for MoviesView
             component: () => import('../Pages/MoviesView.vue')
+        },
+        {
+            path: '/login',
+            component: () => import('../Pages/LoginView.vue')
         }
     ]
 });
