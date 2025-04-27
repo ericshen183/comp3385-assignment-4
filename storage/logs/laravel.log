@@ -1477,3 +1477,13 @@ DETAIL:  Key (email)=(test@example.com) already exists. at C:\\xampp\\htdocs\\co
 #40 C:\\xampp\\htdocs\\comp3385-assignment-4\\artisan(16): Illuminate\\Foundation\\Application->handleCommand(Object(Symfony\\Component\\Console\\Input\\ArgvInput))
 #41 {main}
 "} 
+[2025-04-17 07:00:33] local.ERROR: There are no commands defined in the "database" namespace. {"exception":"[object] (Symfony\\Component\\Console\\Exception\\NamespaceNotFoundException(code: 0): There are no commands defined in the \"database\" namespace. at C:\\xampp\\htdocs\\comp3385-assignment-4\\vendor\\symfony\\console\\Application.php:660)
+[stacktrace]
+#0 C:\\xampp\\htdocs\\comp3385-assignment-4\\vendor\\symfony\\console\\Application.php(709): Symfony\\Component\\Console\\Application->findNamespace('database')
+#1 C:\\xampp\\htdocs\\comp3385-assignment-4\\vendor\\symfony\\console\\Application.php(284): Symfony\\Component\\Console\\Application->find('database:seed')
+#2 C:\\xampp\\htdocs\\comp3385-assignment-4\\vendor\\symfony\\console\\Application.php(193): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#3 C:\\xampp\\htdocs\\comp3385-assignment-4\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(198): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#4 C:\\xampp\\htdocs\\comp3385-assignment-4\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(1235): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#5 C:\\xampp\\htdocs\\comp3385-assignment-4\\artisan(16): Illuminate\\Foundation\\Application->handleCommand(Object(Symfony\\Component\\Console\\Input\\ArgvInput))
+#6 {main}
+"} 

@@ -23,8 +23,7 @@ const login = async () => {
         const data = await response.json();
 
         if (response.ok) {
-            // Store the JWT token in localStorage
-            localStorage.setItem('access_token', data.access_token);
+            localStorage.setItem('access_token', data.access_token); // Store the JWT token
             alert('Login successful!');
             router.push('/movies'); // Redirect to the movies page
         } else {
